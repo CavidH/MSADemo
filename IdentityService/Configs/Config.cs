@@ -14,7 +14,8 @@ namespace IdentityService.Configs
                 new ApiScope("ServiceA.Write", "Write Scope :) "),
                 new ApiScope("ServiceA.Read", "Read Scope :)"),
                 new ApiScope("ServiceB.Write", "Write Scope :)"),
-                new ApiScope("ServiceB.Read", "Read Scope :)")
+                new ApiScope("ServiceB.Read", "Read Scope :)"),
+                new ApiScope("ServiceB.Admin", "Admin Scope :)")
             };
         }
 
@@ -28,7 +29,7 @@ namespace IdentityService.Configs
         {
             return new List<ApiResource>
             {
-                new ApiResource("ServiceA") { Scopes = { "ServiceA.Read", "ServiceA.Write" } },
+                new ApiResource("ServiceA") { Scopes = { "ServiceA.Read", "ServiceA.Write","ServiceB.Admin" } },
                 new ApiResource("ServiceB") { Scopes = { "ServiceB.Read", "ServiceB.Write" } }
             };
         }
@@ -48,7 +49,7 @@ namespace IdentityService.Configs
                     ClientName = "Client1",
                     ClientSecrets = { new Secret("Client1".Sha256()) },
                     AllowedGrantTypes = { GrantType.ClientCredentials },
-                    AllowedScopes = { "ServiceB.Read","ServiceA.Read" }
+                    AllowedScopes = { "ServiceB.Read"/*,"ServiceA.Read" */}
                 },
                 new Client
                 {

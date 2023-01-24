@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-
 namespace ServiceB
 {
     public class Program

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace ServiceA.Controllers
@@ -9,6 +10,7 @@ namespace ServiceA.Controllers
     {
        
         [HttpGet]
+        [Authorize(Policy = "ReadServiceA")]
         public List<string> Get()
         {
             List<string> data = new List<string>();

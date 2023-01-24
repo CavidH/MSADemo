@@ -15,17 +15,23 @@ namespace ServiceA
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            //     {
-            //        
-            //         options.Authority = "https://localhost:2000"; //IDENTITY SERVER
-            //        
-            //         options.Audience = "ServiceA"; // resource name
-            //     });
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    options.Authority = "https://localhost:2000"; //IDENTITY SERVER
 
-            
-            
+                    options.Audience = "ServiceA"; // resource name
+                });
+
+            builder.Services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("ReadServiceA", policy => policy.RequireClaim("scope", "ServiceA.Read"));
+                opt.AddPolicy("WriteServiceA", policy => policy.RequireClaim("scope", "ServiceA.Write"));
+                opt.AddPolicy("ReadWriteServiceA",policy => policy.RequireClaim("scope", "ServiceA.Write", "ServiceA.Read"));
+                opt.AddPolicy("AllServiceA", policy => policy.RequireClaim("scope", "ServiceA.Admin"));
+            });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -37,7 +43,7 @@ namespace ServiceA
 
             app.UseHttpsRedirection();
 
-            // app.UseAuthentication();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
